@@ -15,16 +15,29 @@ const props = Astro.props;
     const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
     mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'loose' });
 
-    const blocks = document.querySelectorAll<HTMLElement>(
-      'pre.language-mermaid code, code.language-mermaid'
-    );
-    blocks.forEach((block, i) => {
-      const pre = block.closest('pre');
-      if (!pre || pre.dataset.mermaidRendered === 'true') return;
-      const code = block.textContent ?? '';
+    // Starlight rend les blocs ```mermaid via Expressive Code :
+    // <div class="expressive-code"><figure>...<pre data-language="mermaid"><code>
+    //   <div class="ec-line"><div class="code">...spans...</div></div> (une div par ligne)
+    // </code></pre>...</figure></div>
+    // `code.textContent` seul perdrait les sauts de ligne entre lignes (divs de bloc) :
+    // on reconstruit le texte source ligne par ligne via `.ec-line`.
+    const blocks = document.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]');
+    blocks.forEach((pre, i) => {
+      const wrapper = pre.closest<HTMLElement>('.expressive-code') ?? pre;
+      if (wrapper.dataset.mermaidRendered === 'true') return;
+      wrapper.dataset.mermaidRendered = 'true';
+
+      const lineEls = pre.querySelectorAll<HTMLElement>('.ec-line');
+      const code =
+        lineEls.length > 0
+          ? Array.from(lineEls)
+              .map((line) => line.textContent ?? '')
+              .join('\n')
+          : (pre.textContent ?? '');
+
       const container = document.createElement('div');
       container.className = 'mermaid-diagram';
-      pre.replaceWith(container);
+      wrapper.replaceWith(container);
       const id = `mermaid-${Date.now()}-${i}`;
       mermaid
         .render(id, code)

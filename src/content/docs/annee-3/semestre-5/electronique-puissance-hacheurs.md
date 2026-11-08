@@ -44,5 +44,5 @@ print(rapport_cyclique(48, 12))  # -> 0.25
 
 ## Ressources associées
 
-- [Fiche AOP — montages de base](/ressources/fiches-electronique/)
-- Datasheet MOSFET utilisé en TP — voir dossier `ressources/`
+- [TP — Montages à AOP](/annee-3/semestre-5/tp-aop-montages/)
+- Datasheet MOSFET utilisé en TP — à ajouter dans [Ressources](/ressources/)
