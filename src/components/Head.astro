@@ -1,0 +1,52 @@
+---
+// Surcharge du composant Head de Starlight : ajoute le script Mermaid
+// sans toucher au <head> par défaut (SEO, favicon, meta Starlight...).
+import Default from '@astrojs/starlight/components/Head.astro';
+
+const props = Astro.props;
+---
+
+<Default {...props}><slot /></Default>
+
+<script>
+  import mermaid from 'mermaid';
+
+  function renderMermaid() {
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+    mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'loose' });
+
+    const blocks = document.querySelectorAll<HTMLElement>(
+      'pre.language-mermaid code, code.language-mermaid'
+    );
+    blocks.forEach((block, i) => {
+      const pre = block.closest('pre');
+      if (!pre || pre.dataset.mermaidRendered === 'true') return;
+      const code = block.textContent ?? '';
+      const container = document.createElement('div');
+      container.className = 'mermaid-diagram';
+      pre.replaceWith(container);
+      const id = `mermaid-${Date.now()}-${i}`;
+      mermaid
+        .render(id, code)
+        .then(({ svg }) => {
+          container.innerHTML = svg;
+        })
+        .catch((err) => {
+          container.innerHTML = `<pre class="mermaid-error">Erreur de rendu Mermaid : ${
+            (err as Error).message
+          }</pre>`;
+        });
+    });
+  }
+
+  // Rendu initial + à chaque navigation Starlight (View Transitions)
+  renderMermaid();
+  document.addEventListener('astro:page-load', renderMermaid);
+
+  // Re-rendu si bascule clair/sombre pendant la lecture
+  const observer = new MutationObserver(renderMermaid);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+</script>

@@ -1,0 +1,62 @@
+/* Palette discrète, technique — inspirée Stripe Docs / GitBook */
+:root {
+  --sl-color-accent-low: #1b2a4a;
+  --sl-color-accent: #3b6ecf;
+  --sl-color-accent-high: #bcd3ff;
+  --sl-font: 'Inter', system-ui, sans-serif;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e3ecff;
+  --sl-color-accent: #2554b3;
+  --sl-color-accent-high: #16274d;
+}
+
+/* Diagrammes Mermaid : centrés, fond neutre, bordure discrète */
+.mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+.mermaid-error {
+  color: var(--sl-color-red);
+  font-size: 0.85rem;
+}
+
+/* Badges statut (brouillon / à relire / complet) */
+.badge-statut {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.badge-statut.brouillon {
+  background: #4a1b1b;
+  color: #ffbcbc;
+}
+.badge-statut.a-relire {
+  background: #4a3a1b;
+  color: #ffe6bc;
+}
+.badge-statut.complet {
+  background: #1b4a2a;
+  color: #bcffd3;
+}
+
+/* Blocs de code : coins arrondis cohérents avec le reste du design */
+.expressive-code pre {
+  border-radius: 0.5rem !important;
+}

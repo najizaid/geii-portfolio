@@ -1,0 +1,33 @@
+---
+title: GEII — Notes & Portfolio
+description: Notes de cours, TP, projets SAE et rapports d'alternance — BUT GEII
+template: splash
+hero:
+  tagline: Du bureau d'études au chantier — notes techniques BUT GEII (Génie Électrique et Informatique Industrielle)
+  actions:
+    - text: Parcourir les notes
+      link: /annee-3/semestre-5/
+      icon: right-arrow
+      variant: primary
+    - text: Projets & SAE
+      link: /projets-sae/
+      icon: rocket
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="Cours & TP" icon="document">
+		Notes de cours, formules et comptes rendus de TP classés par année, semestre, UE et matière.
+	</Card>
+	<Card title="Projets & SAE" icon="rocket">
+		Dossiers de projets (véhicule solaire, maintenance, etc.) avec schémas, code et analyses.
+	</Card>
+	<Card title="Rapports d'alternance" icon="seti:markdown">
+		Rapports rédigés chez SGER en tant qu'Assistant Conducteur de Travaux.
+	</Card>
+	<Card title="Ressources" icon="open-book">
+		Fiches, documents PDF et liens utiles (KiCad, AutoCAD, normes électriques).
+	</Card>
+</CardGrid>
